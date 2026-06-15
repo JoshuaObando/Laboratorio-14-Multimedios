@@ -25,13 +25,18 @@ export const albumRepository = {
       .all(like, like, like, like)
   },
 
-  create(album) {
-    const stmt = db.prepare(`
-      INSERT INTO albumes (slug, titulo, artista, genero, anio, sello, pistas, imagen, resumen, descripcion)
-      VALUES (@slug, @titulo, @artista, @genero, @anio, @sello, @pistas, @imagen, @resumen, @descripcion)
-    `)
-    return stmt.run(album)
-  },
+ create(album) {
+  const stmt = db.prepare(`
+    INSERT INTO albumes (slug, titulo, artista, genero, anio, sello, pistas, imagen, resumen, descripcion)
+    VALUES (@slug, @titulo, @artista, @genero, @anio, @sello, @pistas, @imagen, @resumen, @descripcion)
+  `)
+  return stmt.run({
+    imagen: null,
+    resumen: null,
+    descripcion: null,
+    ...album
+  })
+},
 
   update(slug, campos) {
     const keys = Object.keys(campos)
